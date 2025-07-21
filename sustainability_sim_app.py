@@ -97,36 +97,3 @@ st.pyplot(fig_pie)
 st.subheader("📤 Export Results")
 st.download_button("Download CSV", df.to_csv(index=False).encode(), file_name="simulation_results.csv", mime="text/csv")
 
-
-
-
-import matplotlib.pyplot as plt
-
-# Optional: Insert this inside your main app layout
-st.subheader("📊 KPI Visualizations")
-
-# Prepare KPI Data
-kpis = {
-    "CO₂ Emissions": kpi_results['CO2_Emissions'],
-    "Circularity Index (%)": kpi_results['Circularity_Index'],
-    "Sustainability ROI": kpi_results['Sustainability_ROI'],
-    "Green OpEx (FCFA)": kpi_results['Green_OpEx'],
-    "Profit Margin (%)": kpi_results['Profit_Margin']
-}
-df_kpis = pd.DataFrame(list(kpis.items()), columns=["KPI", "Value"])
-
-# Bar Chart
-fig_bar, ax = plt.subplots(figsize=(7, 3))
-ax.barh(df_kpis["KPI"], df_kpis["Value"], color="seagreen")
-ax.set_xlabel("Value")
-ax.set_title("KPI Overview - Bar Chart")
-st.pyplot(fig_bar)
-
-# Pie Chart: show only % KPIs
-df_percent = df_kpis[df_kpis["KPI"].str.contains("%")]
-if not df_percent.empty:
-    fig_pie, ax2 = plt.subplots()
-    ax2.pie(df_percent["Value"], labels=df_percent["KPI"], autopct='%1.1f%%', startangle=90)
-    ax2.set_title("KPI Distribution - Pie Chart")
-    st.pyplot(fig_pie)
-
